@@ -35,26 +35,6 @@ jobs:
 
       - name: Smoke test
         run: |
-          docker run -d --name t -p 8080:80 baikal-test
+          docker run -d --name baikal-smoke -p 8080:80 baikal-test
           for i in $(seq 1 30); do
-            code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/ || true)
-            case "$code" in 2*|3*) break ;; esac
-            sleep 2
-          done
-          docker exec t php -v
-          echo "HTTP status: $code"
-          case "$code" in 2*|3*) ;; *) docker logs t; exit 1 ;; esac
-
-      - uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push to GHCR
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: apache.dockerfile
-          push: true
-          tags: ghcr.io/b-v-/baikal:latest
+            code=$(curl -s -o /dev/null -w
