@@ -56,4 +56,4 @@ jobs:
           context: .
           file: apache.dockerfile
           push: true
-          tags: ghcr.io/b-v-/baikal:latest
+          tags: ghcr.io/bvnl/baikal:latest
